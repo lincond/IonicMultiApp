@@ -9,6 +9,7 @@ program
   .option('-i, --id <id>', 'specifies the application id. Ex.: br.com.example.app')
   .option('-n, --name <name>', 'specifies the application name. Ex.: My App')
   .option('-v, --appv <appv>', 'specifies the application version. Ex.: 0.0.1')
+  .option('-o, --out [out]', 'specifies the name of out xml file.')
   .arguments('<config>')
   .action(async (config) => {
     if (!program.id || !program.name || !program.appv) {
@@ -51,8 +52,9 @@ program
       log(`App version: ${parsedConfig.widget._attributes.version}`)
       log(`App Id: ${parsedConfig.widget._attributes.id}`)
 
-      const outConfig = xml.js2xml(parsedConfig, {compact: true, spaces: 4})
-      await writeFileAsync('out.xml', outConfig)
+      const outConfig   = xml.js2xml(parsedConfig, {compact: true, spaces: 4})
+      const outFileName = program.out || 'out.xml'
+      await writeFileAsync(outFileName, outConfig)
       log(chalk.green('Success!'))
     } catch (error) {
       log(chalk.red("An error ocurred", error))
