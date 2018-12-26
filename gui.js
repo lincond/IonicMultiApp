@@ -17,11 +17,18 @@ const createConfirmationTable = (actualValues, newValues) => {
   })
 }
 
+const confirm = (msg) => {
+  return co(function *() {
+    return yield prompt.confirm(`${msg} (y/N) `)
+ })
+}
+
 const log = (msg) => {
   console.log(`[${chalk.green([new Date().toLocaleString()])}] ${msg}`)
 }
 
 module.exports = {
   createConfirmationTable: createConfirmationTable,
-  log                    : log
+  log                    : log,
+  confirm                : confirm
 }
